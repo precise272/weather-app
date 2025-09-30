@@ -4,7 +4,7 @@
   --bg: #f5f7fa;
   --card-bg: #ffffff;
   --text: #333;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow: rgba(0, 0, 0, 0.12);
 }
 
 body {
@@ -42,8 +42,9 @@ input {
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 220px;
+  border-radius: 10px;
+  width: 240px;
+  background: #fff;
 }
 
 button {
@@ -52,13 +53,17 @@ button {
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.2s ease, transform 0.08s ease;
 }
 
 button:hover {
   background: #1976d2;
+}
+
+button:active {
+  transform: scale(0.98);
 }
 
 /* Hero weather card */
@@ -67,7 +72,7 @@ button:hover {
   color: white;
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -78,7 +83,7 @@ button:hover {
 
 .weather-card.hero .temp {
   font-size: 3rem;
-  font-weight: bold;
+  font-weight: 800;
   margin: 0.5rem 0;
 }
 
@@ -86,6 +91,7 @@ button:hover {
   font-size: 1.2rem;
   margin-bottom: 1rem;
   color: var(--accent);
+  text-transform: capitalize;
 }
 
 .weather-icon, .big-icon {
@@ -99,7 +105,7 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   margin-top: 1rem;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 
 /* Welcome / Landing card */
@@ -109,25 +115,8 @@ button:hover {
   padding: 3rem 2rem;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
-
-.welcome-card h2 {
-  font-size: 2rem;
-  margin: 1rem 0 0.5rem;
-}
-
-.welcome-card p {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-}
-
-.big-icon {
-  font-size: 100px;
-  color: var(--accent);
-  margin-bottom: 1rem;
-}
-
 
 /* Forecast cards */
 .forecast-section {
@@ -138,18 +127,19 @@ button:hover {
 }
 
 .forecast-card {
-  min-width: 120px;
+  min-width: 140px;
   background: var(--card-bg);
   padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px var(--shadow);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px var(--shadow);
   text-align: center;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .forecast-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.16);
 }
 
 .forecast-icon {
@@ -164,7 +154,28 @@ button:hover {
   margin-top: 1rem;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px var(--shadow);
+  box-shadow: 0 6px 16px var(--shadow);
+  position: relative;
+  background: #eaf2fa;
+}
+
+.map-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #667;
+  font-size: 1rem;
+}
+
+.map-placeholder i {
+  font-size: 48px;
+  margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Accessibility */
@@ -175,12 +186,18 @@ button:hover {
 
 @media (max-width: 600px) {
   .weather-card.hero .temp {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
   .details-grid {
     grid-template-columns: 1fr;
   }
+  .search-group {
+    width: 100%;
+  }
   input, button {
     width: 100%;
+  }
+  .forecast-card {
+    min-width: 130px;
   }
 }

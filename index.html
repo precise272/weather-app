@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-
 </head>
 <body>
   <div class="app-container">
@@ -28,22 +28,26 @@
     </header>
 
     <main>
-      <!-- Hero weather card -->
-        <section id="weatherResult" class="weather-section">
+      <!-- Hero weather card / landing -->
+      <section id="weatherResult" class="weather-section">
         <div class="welcome-card">
-        <i class="wi wi-day-sunny big-icon"></i>
-        <h2>Weatherly</h2>
-        <p>Your premium forecast, simplified.</p>
-        <p>Search for a city or use your location to get started.</p>
-  </div>
-</section>
-
+          <i class="wi wi-day-sunny big-icon" aria-hidden="true"></i>
+          <h2>Weatherly</h2>
+          <p>Your premium forecast, simplified.</p>
+          <p>Search for a city or use your location to get started.</p>
+        </div>
+      </section>
 
       <!-- Forecast cards -->
-      <section id="forecast" class="forecast-section"></section>
+      <section id="forecast" class="forecast-section" aria-label="5-day forecast"></section>
 
       <!-- Interactive map -->
-      <section id="map" class="map-section"></section>
+      <section id="map" class="map-section hidden" aria-label="Weather map">
+        <div class="map-placeholder">
+          <i class="wi wi-earth" aria-hidden="true"></i>
+          <p>Map will appear here once you search.</p>
+        </div>
+      </section>
     </main>
   </div>
 

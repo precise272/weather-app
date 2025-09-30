@@ -11,8 +11,8 @@ async function getWeather() {
   displayMessage("Loading weather data...");
 
   try {
-    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
     const [currentRes, forecastRes] = await Promise.all([
       fetch(currentUrl),
@@ -64,7 +64,7 @@ function getLocalWeather() {
       displayMessage("Error fetching local weather.");
       console.error(error);
     }
-  });
+  }, () => displayMessage("Location access denied."));
 }
 
 /**
@@ -79,12 +79,12 @@ function displayCurrentWeather(data) {
     <div class="weather-card hero">
       <h2>${data.name}, ${data.sys.country}</h2>
       <i class="wi ${iconClass} weather-icon" aria-hidden="true"></i>
-      <p class="temp">${data.main.temp}°C</p>
+      <p class="temp">${Math.round(data.main.temp)}°C</p>
       <p class="condition">${data.weather[0].description}</p>
       <div class="details-grid">
-        <div><i class="wi wi-thermometer"></i> Feels like: ${data.main.feels_like}°C</div>
+        <div><i class="wi wi-thermometer"></i> Feels like: ${Math.round(data.main.feels_like)}°C</div>
         <div><i class="wi wi-humidity"></i> Humidity: ${data.main.humidity}%</div>
-        <div><i class="wi wi-strong-wind"></i> Wind: ${data.wind.speed} m/s</div>
+        <div><i class="wi wi-strong-wind"></i> Wind: ${Math.round(data.wind.speed)} m/s</div>
         <div><i class="wi wi-cloud"></i> Clouds: ${data.clouds.all}%</div>
         <div><i class="wi wi-sunrise"></i> Sunrise: ${sunrise}</div>
         <div><i class="wi wi-sunset"></i> Sunset: ${sunset}</div>
@@ -110,7 +110,7 @@ function displayForecast(list) {
       <div class="forecast-card">
         <p><strong>${date}</strong></p>
         <i class="wi ${iconClass} forecast-icon" aria-hidden="true"></i>
-        <p>${item.main.temp}°C</p>
+        <p>${Math.round(item.main.temp)}°C</p>
         <p>${item.weather[0].main}</p>
       </div>
     `;
@@ -121,8 +121,18 @@ function displayForecast(list) {
  * Initialize or refresh the Leaflet map with a marker
  */
 function showMap(lat, lon, city) {
-  if (mapInstance) mapInstance.remove();
+  const mapSection = document.getElementById("map");
 
+  // Reveal map section now that we have data
+  mapSection.classList.remove("hidden");
+
+  // Clear any existing map instance to avoid reinitialization errors
+  if (mapInstance) {
+    mapInstance.remove();
+    mapInstance = null;
+  }
+
+  // Initialize map
   mapInstance = L.map("map").setView([lat, lon], 10);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -156,23 +166,25 @@ function mapIconToClass(icon) {
  * Update background color dynamically based on weather condition
  */
 function updateBackground(condition) {
-  const bgColor = condition.toLowerCase().includes("rain") ? "#a3c9f1" :
-                  condition.toLowerCase().includes("clear") ? "#ffe082" :
-                  condition.toLowerCase().includes("cloud") ? "#cfd8dc" : "#f5f7fa";
+  const c = String(condition || "").toLowerCase();
+  const bgColor = c.includes("rain") ? "#a3c9f1" :
+                  c.includes("clear") ? "#ffe082" :
+                  c.includes("cloud") ? "#cfd8dc" : "#f5f7fa";
   document.body.style.background = bgColor;
 }
 
 /**
- * Display a message or landing card
+ * Display a message or landing card and hide map until data is available
  */
 function displayMessage(msg) {
   document.getElementById("weatherResult").innerHTML = `
     <div class="welcome-card">
       <h2>${msg}</h2>
       <p>Search for a city or use your location to see the forecast.</p>
-      <i class="wi wi-day-sunny big-icon"></i>
+      <i class="wi wi-day-sunny big-icon" aria-hidden="true"></i>
     </div>
   `;
   document.getElementById("forecast").innerHTML = "";
-  document.getElementById("map").innerHTML = "";
+  const mapSection = document.getElementById("map");
+  if (mapSection) mapSection.classList.add("hidden");
 }
