@@ -61,7 +61,6 @@ button:hover {
   background: #1976d2;
 }
 
-/* Hero weather card */
 .weather-card.hero {
   background: linear-gradient(135deg, #2196f3, #21cbf3);
   color: white;
@@ -70,10 +69,6 @@ button:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   text-align: center;
   margin-bottom: 1rem;
-}
-
-.weather-card.hero h2 {
-  margin-bottom: 0.5rem;
 }
 
 .weather-card.hero .temp {
@@ -85,12 +80,7 @@ button:hover {
 .weather-card.hero .condition {
   font-size: 1.2rem;
   margin-bottom: 1rem;
-}
-
-#weatherAnimation {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto;
+  color: var(--accent);
 }
 
 .details-grid {
@@ -99,6 +89,10 @@ button:hover {
   gap: 0.75rem;
   margin-top: 1rem;
   font-size: 0.95rem;
+}
+
+.weather-card.hero h2 {
+  margin-bottom: 0.5rem;
 }
 
 /* Forecast cards */

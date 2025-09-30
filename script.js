@@ -77,16 +77,29 @@ function getLocalWeather() {
  * Render current weather card
  */
 function displayCurrentWeather(data) {
+  const sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  const sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
   const iconClass = mapIconToClass(data.weather[0].icon);
+
   document.getElementById("weatherResult").innerHTML = `
-    <div class="weather-card">
+    <div class="weather-card hero">
       <h2>${data.name}, ${data.sys.country}</h2>
       <i class="wi ${iconClass} weather-icon" aria-hidden="true"></i>
-      <p><strong>${data.main.temp}°C</strong></p>
-      <p>${data.weather[0].main}</p>
+      <p class="temp">${data.main.temp}°C</p>
+      <p class="condition">${data.weather[0].description}</p>
+      <div class="details-grid">
+        <div><i class="wi wi-thermometer"></i> Feels like: ${data.main.feels_like}°C</div>
+        <div><i class="wi wi-humidity"></i> Humidity: ${data.main.humidity}%</div>
+        <div><i class="wi wi-strong-wind"></i> Wind: ${data.wind.speed} m/s</div>
+        <div><i class="wi wi-cloud"></i> Clouds: ${data.clouds.all}%</div>
+        <div><i class="wi wi-sunrise"></i> Sunrise: ${sunrise}</div>
+        <div><i class="wi wi-sunset"></i> Sunset: ${sunset}</div>
+      </div>
     </div>
   `;
 }
+
 
 /**
  * Render 5-day forecast cards
