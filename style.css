@@ -28,5 +28,35 @@ button {
 }
 
 #weatherResult {
+  background: #e0f7fa;
+  padding: 1rem;
+  border-radius: 10px;
   margin-top: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+.weather-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-top: 1rem;
+  text-align: center;
+}
+.weather-card img {
+  width: 80px;
+  height: 80px;
+}
+
+
+@media (max-width: 600px) {
+  input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
