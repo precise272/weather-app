@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Essential meta tags for SEO and responsiveness -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weather App</title>
+  <meta name="description" content="A modern weather dashboard providing real-time conditions, 5-day forecasts, and interactive maps using OpenWeatherMap API." />
+  <meta name="keywords" content="Weather App, Forecast, OpenWeatherMap, JavaScript, Weather Dashboard" />
+  <meta name="author" content="Weather Dashboard Project" />
+
+  <title>Weather Dashboard | Real-Time Forecast & Map</title>
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <!-- Favicon for branding -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <div class="app-container">
     <header>
-      <h1>🌤 Weather Dashboard</h1>
+      <h1 aria-label="Weather Dashboard">🌤 Weather Dashboard</h1>
       <div class="search-group">
-        <input type="text" id="cityInput" placeholder="Enter city name" />
-        <button onclick="getWeather()">Search</button>
-        <button onclick="getLocalWeather()">📍 My Location</button>
+        <label for="cityInput" class="visually-hidden">Enter city name</label>
+        <input type="text" id="cityInput" placeholder="Enter city name" aria-label="City name" />
+        <button onclick="getWeather()" aria-label="Search weather by city">Search</button>
+        <button onclick="getLocalWeather()" aria-label="Get weather for current location">📍 My Location</button>
       </div>
     </header>
 
     <main>
-      <section id="weatherResult" class="weather-section"></section>
-      <section id="forecast" class="forecast-section"></section>
-      <section id="map" class="map-section"></section>
-    </main>
+      <!-- Current weather results -->
+      <section id="weatherResult" class="weather-section" aria-live="polite"></section>
 
-    <footer>
-      <p>Made with ❤️ by Mike</p>
-    </footer>
+      <!-- Forecast cards -->
+      <section id="forecast" class="forecast-section" aria-label="5-day forecast"></section>
+
+      <!-- Interactive map -->
+      <section id="map" class="map-section" aria-label="Weather map"></section>
+    </main>
   </div>
 
+  <!-- Scripts -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="script.js"></script>
 </body>

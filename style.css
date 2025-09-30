@@ -1,3 +1,4 @@
+/* Root variables for consistent theming */
 :root {
   --primary: #2196f3;
   --accent: #ffca28;
@@ -12,8 +13,10 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: var(--bg);
   color: var(--text);
+  line-height: 1.6;
 }
 
+/* Container for app layout */
 .app-container {
   max-width: 800px;
   margin: auto;
@@ -30,6 +33,7 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
+/* Search input and buttons */
 .search-group {
   display: flex;
   flex-wrap: wrap;
@@ -60,6 +64,7 @@ button:hover {
   background: #1976d2;
 }
 
+/* Weather and forecast sections */
 .weather-section, .forecast-section {
   margin-top: 1rem;
 }
@@ -79,6 +84,7 @@ button:hover {
   color: var(--accent);
 }
 
+/* Forecast cards in horizontal scroll */
 .forecast-section {
   display: flex;
   overflow-x: auto;
@@ -102,6 +108,7 @@ button:hover {
   color: var(--primary);
 }
 
+/* Map container */
 .map-section {
   height: 300px;
   margin-top: 1rem;
@@ -110,24 +117,8 @@ button:hover {
   box-shadow: 0 4px 12px var(--shadow);
 }
 
-footer {
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #777;
-}
-
-@media (max-width: 600px) {
-  input {
-    width: 100%;
-  }
-
-  .forecast-section {
-    gap: 0.5rem;
-  }
-
-  .forecast-card {
-    min-width: 100px;
-    font-size: 0.9rem;
-  }
+/* Accessibility: visually hidden labels */
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
 }

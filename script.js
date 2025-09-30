@@ -1,6 +1,12 @@
+// API key for OpenWeatherMap (active and tied to this project)
 const apiKey = "6b71bdaa17a65c101bbfa02b13199820";
+
+// Global map instance to prevent reinitialization errors
 let mapInstance = null;
 
+/**
+ * Fetch weather and forecast data for a given city
+ */
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
   if (!city) return displayMessage("Please enter a city name.");
@@ -8,9 +14,11 @@ async function getWeather() {
   displayMessage("Loading weather data...");
 
   try {
+    // Build API endpoints for current weather and 5-day forecast
     const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
+    // Fetch both endpoints concurrently
     const [currentRes, forecastRes] = await Promise.all([
       fetch(currentUrl),
       fetch(forecastUrl)
@@ -21,6 +29,7 @@ async function getWeather() {
 
     if (currentData.cod !== 200) return displayMessage(`City "${city}" not found.`);
 
+    // Update UI with results
     updateBackground(currentData.weather[0].main);
     displayCurrentWeather(currentData);
     displayForecast(forecastData.list);
@@ -31,6 +40,9 @@ async function getWeather() {
   }
 }
 
+/**
+ * Fetch weather and forecast data based on user's geolocation
+ */
 function getLocalWeather() {
   if (!navigator.geolocation) return displayMessage("Geolocation not supported.");
 
@@ -61,30 +73,39 @@ function getLocalWeather() {
   });
 }
 
+/**
+ * Render current weather card
+ */
 function displayCurrentWeather(data) {
   const iconClass = mapIconToClass(data.weather[0].icon);
   document.getElementById("weatherResult").innerHTML = `
     <div class="weather-card">
       <h2>${data.name}, ${data.sys.country}</h2>
-      <i class="wi ${iconClass} weather-icon"></i>
+      <i class="wi ${iconClass} weather-icon" aria-hidden="true"></i>
       <p><strong>${data.main.temp}°C</strong></p>
       <p>${data.weather[0].main}</p>
     </div>
   `;
 }
 
+/**
+ * Render 5-day forecast cards
+ */
 function displayForecast(list) {
   const forecastDiv = document.getElementById("forecast");
   forecastDiv.innerHTML = "";
 
+  // Extract one forecast per day (12:00 PM) for clarity
   const daily = list.filter(item => item.dt_txt.includes("12:00:00")).slice(0, 5);
+
   daily.forEach(item => {
     const date = new Date(item.dt_txt).toLocaleDateString();
     const iconClass = mapIconToClass(item.weather[0].icon);
+
     forecastDiv.innerHTML += `
       <div class="forecast-card">
         <p><strong>${date}</strong></p>
-        <i class="wi ${iconClass} forecast-icon"></i>
+        <i class="wi ${iconClass} forecast-icon" aria-hidden="true"></i>
         <p>${item.main.temp}°C</p>
         <p>${item.weather[0].main}</p>
       </div>
@@ -92,8 +113,11 @@ function displayForecast(list) {
   });
 }
 
+/**
+ * Initialize or refresh the Leaflet map with a marker
+ */
 function showMap(lat, lon, city) {
-  // If map already exists, remove it
+  // Remove existing map instance to avoid reinitialization errors
   if (mapInstance) {
     mapInstance.remove();
   }
@@ -109,7 +133,9 @@ function showMap(lat, lon, city) {
     .openPopup();
 }
 
-
+/**
+ * Map OpenWeatherMap icon codes to Weather Icons classes
+ */
 function mapIconToClass(icon) {
   const map = {
     "01d": "wi-day-sunny",
@@ -134,6 +160,9 @@ function mapIconToClass(icon) {
   return map[icon] || "wi-na";
 }
 
+/**
+ * Update background color dynamically based on weather condition
+ */
 function updateBackground(condition) {
   const bgColor = condition.toLowerCase().includes("rain") ? "#a3c9f1" :
                   condition.toLowerCase().includes("clear") ? "#ffe082" :
@@ -141,6 +170,9 @@ function updateBackground(condition) {
   document.body.style.background = bgColor;
 }
 
+/**
+ * Display a message in place of weather results
+ */
 function displayMessage(msg) {
   document.getElementById("weatherResult").innerHTML = `<p>${msg}</p>`;
   document.getElementById("forecast").innerHTML = "";
