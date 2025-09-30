@@ -4,45 +4,48 @@
   <!-- SEO & Accessibility -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A modern weather dashboard with real-time conditions, 5-day forecasts, interactive maps, and animated icons." />
-  <meta name="keywords" content="Weather App, Forecast, OpenWeatherMap, JavaScript, Weather Dashboard" />
-  <title>Weather Dashboard | Real-Time Forecast & Map</title>
+  <meta name="description" content="A premium weather dashboard with real-time conditions, 5-day forecasts, and interactive maps." />
+  <title>Weather Dashboard | Premium Forecast & Map</title>
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <div class="app-container">
     <header>
-      <h1 aria-label="Weather Dashboard">🌤 Weather Dashboard</h1>
+      <h1>🌤 Weather Dashboard</h1>
       <div class="search-group">
         <label for="cityInput" class="visually-hidden">Enter city name</label>
         <input type="text" id="cityInput" placeholder="Enter city name" aria-label="City name" />
-        <button onclick="getWeather()" aria-label="Search weather by city">Search</button>
-        <button onclick="getLocalWeather()" aria-label="Get weather for current location">📍 My Location</button>
+        <button onclick="getWeather()">Search</button>
+        <button onclick="getLocalWeather()">📍 My Location</button>
       </div>
     </header>
 
     <main>
       <!-- Hero weather card -->
-      <section id="weatherResult" class="weather-section"></section>
+      <section id="weatherResult" class="weather-section">
+        <div class="welcome-card">
+          <h2>Welcome</h2>
+          <p>Search for a city or use your location to see the weather forecast.</p>
+          <i class="wi wi-day-sunny big-icon"></i>
+        </div>
+      </section>
 
       <!-- Forecast cards -->
-      <section id="forecast" class="forecast-section" aria-label="5-day forecast"></section>
+      <section id="forecast" class="forecast-section"></section>
 
       <!-- Interactive map -->
-      <section id="map" class="map-section" aria-label="Weather map"></section>
+      <section id="map" class="map-section"></section>
     </main>
   </div>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.4/lottie.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

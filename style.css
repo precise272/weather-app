@@ -39,7 +39,7 @@ h1 {
 }
 
 input {
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -47,7 +47,7 @@ input {
 }
 
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
   font-size: 1rem;
   background: var(--primary);
   color: white;
@@ -61,6 +61,7 @@ button:hover {
   background: #1976d2;
 }
 
+/* Hero weather card */
 .weather-card.hero {
   background: linear-gradient(135deg, #2196f3, #21cbf3);
   color: white;
@@ -69,6 +70,10 @@ button:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   text-align: center;
   margin-bottom: 1rem;
+}
+
+.weather-card.hero h2 {
+  margin-bottom: 0.5rem;
 }
 
 .weather-card.hero .temp {
@@ -83,6 +88,12 @@ button:hover {
   color: var(--accent);
 }
 
+.weather-icon, .big-icon {
+  font-size: 96px;
+  margin: 1rem 0;
+  color: var(--accent);
+}
+
 .details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -91,8 +102,14 @@ button:hover {
   font-size: 0.95rem;
 }
 
-.weather-card.hero h2 {
-  margin-bottom: 0.5rem;
+/* Welcome card for landing state */
+.welcome-card {
+  background: linear-gradient(135deg, #42a5f5, #478ed1);
+  color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
 /* Forecast cards */
@@ -111,10 +128,15 @@ button:hover {
   box-shadow: 0 4px 12px var(--shadow);
   text-align: center;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.forecast-card:hover {
+  transform: translateY(-4px);
 }
 
 .forecast-icon {
-  font-size: 36px;
+  font-size: 48px;
   margin: 0.5rem 0;
   color: var(--primary);
 }
@@ -140,5 +162,8 @@ button:hover {
   }
   .details-grid {
     grid-template-columns: 1fr;
+  }
+  input, button {
+    width: 100%;
   }
 }

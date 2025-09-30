@@ -1,7 +1,4 @@
-// API key for OpenWeatherMap (active and tied to this project)
 const apiKey = "6b71bdaa17a65c101bbfa02b13199820";
-
-// Global map instance to prevent reinitialization errors
 let mapInstance = null;
 
 /**
@@ -14,11 +11,9 @@ async function getWeather() {
   displayMessage("Loading weather data...");
 
   try {
-    // Build API endpoints for current weather and 5-day forecast
     const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
-    // Fetch both endpoints concurrently
     const [currentRes, forecastRes] = await Promise.all([
       fetch(currentUrl),
       fetch(forecastUrl)
@@ -29,7 +24,6 @@ async function getWeather() {
 
     if (currentData.cod !== 200) return displayMessage(`City "${city}" not found.`);
 
-    // Update UI with results
     updateBackground(currentData.weather[0].main);
     displayCurrentWeather(currentData);
     displayForecast(forecastData.list);
@@ -74,12 +68,11 @@ function getLocalWeather() {
 }
 
 /**
- * Render current weather card
+ * Render enhanced current weather hero card
  */
 function displayCurrentWeather(data) {
   const sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
   const sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
   const iconClass = mapIconToClass(data.weather[0].icon);
 
   document.getElementById("weatherResult").innerHTML = `
@@ -100,7 +93,6 @@ function displayCurrentWeather(data) {
   `;
 }
 
-
 /**
  * Render 5-day forecast cards
  */
@@ -108,7 +100,6 @@ function displayForecast(list) {
   const forecastDiv = document.getElementById("forecast");
   forecastDiv.innerHTML = "";
 
-  // Extract one forecast per day (12:00 PM) for clarity
   const daily = list.filter(item => item.dt_txt.includes("12:00:00")).slice(0, 5);
 
   daily.forEach(item => {
@@ -130,10 +121,7 @@ function displayForecast(list) {
  * Initialize or refresh the Leaflet map with a marker
  */
 function showMap(lat, lon, city) {
-  // Remove existing map instance to avoid reinitialization errors
-  if (mapInstance) {
-    mapInstance.remove();
-  }
+  if (mapInstance) mapInstance.remove();
 
   mapInstance = L.map("map").setView([lat, lon], 10);
 
@@ -151,24 +139,15 @@ function showMap(lat, lon, city) {
  */
 function mapIconToClass(icon) {
   const map = {
-    "01d": "wi-day-sunny",
-    "01n": "wi-night-clear",
-    "02d": "wi-day-cloudy",
-    "02n": "wi-night-alt-cloudy",
-    "03d": "wi-cloud",
-    "03n": "wi-cloud",
-    "04d": "wi-cloudy",
-    "04n": "wi-cloudy",
-    "09d": "wi-showers",
-    "09n": "wi-showers",
-    "10d": "wi-day-rain",
-    "10n": "wi-night-alt-rain",
-    "11d": "wi-thunderstorm",
-    "11n": "wi-thunderstorm",
-    "13d": "wi-snow",
-    "13n": "wi-snow",
-    "50d": "wi-fog",
-    "50n": "wi-fog"
+    "01d": "wi-day-sunny", "01n": "wi-night-clear",
+    "02d": "wi-day-cloudy", "02n": "wi-night-alt-cloudy",
+    "03d": "wi-cloud", "03n": "wi-cloud",
+    "04d": "wi-cloudy", "04n": "wi-cloudy",
+    "09d": "wi-showers", "09n": "wi-showers",
+    "10d": "wi-day-rain", "10n": "wi-night-alt-rain",
+    "11d": "wi-thunderstorm", "11n": "wi-thunderstorm",
+    "13d": "wi-snow", "13n": "wi-snow",
+    "50d": "wi-fog", "50n": "wi-fog"
   };
   return map[icon] || "wi-na";
 }
@@ -184,10 +163,16 @@ function updateBackground(condition) {
 }
 
 /**
- * Display a message in place of weather results
+ * Display a message or landing card
  */
 function displayMessage(msg) {
-  document.getElementById("weatherResult").innerHTML = `<p>${msg}</p>`;
+  document.getElementById("weatherResult").innerHTML = `
+    <div class="welcome-card">
+      <h2>${msg}</h2>
+      <p>Search for a city or use your location to see the forecast.</p>
+      <i class="wi wi-day-sunny big-icon"></i>
+    </div>
+  `;
   document.getElementById("forecast").innerHTML = "";
   document.getElementById("map").innerHTML = "";
 }
