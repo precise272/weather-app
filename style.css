@@ -102,15 +102,32 @@ button:hover {
   font-size: 0.95rem;
 }
 
-/* Welcome card for landing state */
+/* Welcome / Landing card */
 .welcome-card {
   background: linear-gradient(135deg, #42a5f5, #478ed1);
   color: white;
-  padding: 2rem;
+  padding: 3rem 2rem;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
+
+.welcome-card h2 {
+  font-size: 2rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.welcome-card p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.big-icon {
+  font-size: 100px;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
 
 /* Forecast cards */
 .forecast-section {
