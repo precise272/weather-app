@@ -6,18 +6,31 @@
   <title>Weather App</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Weather App</h1>
-    <div class="input-group">
-      <input type="text" id="cityInput" placeholder="Enter city name" />
-      <button onclick="getWeather()">Get Weather</button>
-      <button onclick="getLocalWeather()">Use My Location</button>
-    </div>
-    <div id="weatherResult"></div>
-    <div id="forecast"></div>
+  <div class="app-container">
+    <header>
+      <h1>🌤 Weather Dashboard</h1>
+      <div class="search-group">
+        <input type="text" id="cityInput" placeholder="Enter city name" />
+        <button onclick="getWeather()">Search</button>
+        <button onclick="getLocalWeather()">📍 My Location</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="weatherResult" class="weather-section"></section>
+      <section id="forecast" class="forecast-section"></section>
+      <section id="map" class="map-section"></section>
+    </main>
+
+    <footer>
+      <p>Made with ❤️ by Mike</p>
+    </footer>
   </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

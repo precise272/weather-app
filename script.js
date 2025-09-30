@@ -1,6 +1,5 @@
 const apiKey = "6b71bdaa17a65c101bbfa02b13199820";
 
-// Main weather fetch by city
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
   if (!city) return displayMessage("Please enter a city name.");
@@ -24,13 +23,13 @@ async function getWeather() {
     updateBackground(currentData.weather[0].main);
     displayCurrentWeather(currentData);
     displayForecast(forecastData.list);
+    showMap(currentData.coord.lat, currentData.coord.lon, currentData.name);
   } catch (error) {
     displayMessage("Error fetching data. Please try again.");
     console.error(error);
   }
 }
 
-// Weather fetch by geolocation
 function getLocalWeather() {
   if (!navigator.geolocation) return displayMessage("Geolocation not supported.");
 
@@ -53,6 +52,7 @@ function getLocalWeather() {
       updateBackground(currentData.weather[0].main);
       displayCurrentWeather(currentData);
       displayForecast(forecastData.list);
+      showMap(latitude, longitude, currentData.name);
     } catch (error) {
       displayMessage("Error fetching local weather.");
       console.error(error);
@@ -60,23 +60,21 @@ function getLocalWeather() {
   });
 }
 
-// Display current weather
 function displayCurrentWeather(data) {
   const iconClass = mapIconToClass(data.weather[0].icon);
   document.getElementById("weatherResult").innerHTML = `
     <div class="weather-card">
       <h2>${data.name}, ${data.sys.country}</h2>
-      <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
-      <p><strong>Condition:</strong> ${data.weather[0].main}</p>
       <i class="wi ${iconClass} weather-icon"></i>
+      <p><strong>${data.main.temp}°C</strong></p>
+      <p>${data.weather[0].main}</p>
     </div>
   `;
 }
 
-// Display 5-day forecast
 function displayForecast(list) {
   const forecastDiv = document.getElementById("forecast");
-  forecastDiv.innerHTML = "<h3>5-Day Forecast</h3>";
+  forecastDiv.innerHTML = "";
 
   const daily = list.filter(item => item.dt_txt.includes("12:00:00")).slice(0, 5);
   daily.forEach(item => {
@@ -93,7 +91,21 @@ function displayForecast(list) {
   });
 }
 
-// Utility: map OpenWeather icon to Weather Icons class
+function showMap(lat, lon, city) {
+  const mapDiv = document.getElementById("map");
+  mapDiv.innerHTML = ""; // Clear previous map instance
+
+  const map = L.map("map").setView([lat, lon], 10);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors"
+  }).addTo(map);
+
+  L.marker([lat, lon]).addTo(map)
+    .bindPopup(`<strong>${city}</strong>`)
+    .openPopup();
+}
+
 function mapIconToClass(icon) {
   const map = {
     "01d": "wi-day-sunny",
@@ -118,16 +130,15 @@ function mapIconToClass(icon) {
   return map[icon] || "wi-na";
 }
 
-// Utility: update background color
 function updateBackground(condition) {
   const bgColor = condition.toLowerCase().includes("rain") ? "#a3c9f1" :
                   condition.toLowerCase().includes("clear") ? "#ffe082" :
-                  condition.toLowerCase().includes("cloud") ? "#cfd8dc" : "#f0f4f8";
+                  condition.toLowerCase().includes("cloud") ? "#cfd8dc" : "#f5f7fa";
   document.body.style.background = bgColor;
 }
 
-// Utility: display message
 function displayMessage(msg) {
   document.getElementById("weatherResult").innerHTML = `<p>${msg}</p>`;
   document.getElementById("forecast").innerHTML = "";
+  document.getElementById("map").innerHTML = "";
 }
