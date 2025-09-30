@@ -1,4 +1,5 @@
 const apiKey = "6b71bdaa17a65c101bbfa02b13199820";
+let mapInstance = null;
 
 async function getWeather() {
   const city = document.getElementById("cityInput").value.trim();
@@ -92,19 +93,22 @@ function displayForecast(list) {
 }
 
 function showMap(lat, lon, city) {
-  const mapDiv = document.getElementById("map");
-  mapDiv.innerHTML = ""; // Clear previous map instance
+  // If map already exists, remove it
+  if (mapInstance) {
+    mapInstance.remove();
+  }
 
-  const map = L.map("map").setView([lat, lon], 10);
+  mapInstance = L.map("map").setView([lat, lon], 10);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap contributors"
-  }).addTo(map);
+  }).addTo(mapInstance);
 
-  L.marker([lat, lon]).addTo(map)
+  L.marker([lat, lon]).addTo(mapInstance)
     .bindPopup(`<strong>${city}</strong>`)
     .openPopup();
 }
+
 
 function mapIconToClass(icon) {
   const map = {
